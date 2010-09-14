@@ -7,9 +7,9 @@ module Localize
   autoload :Formats, File.join(File.dirname(__FILE__), 'localize/formats')
 
   @@default_locale = :en
-  @@locale = @@default_locale
-  @@store = :yaml
-  @@location = ''
+  @@locale         = @@default_locale
+  @@store          = :yaml
+  @@location       = ''
 
   class << self
     def load(locale=nil, location=nil)
@@ -25,7 +25,7 @@ module Localize
           raise "Adapter not avalaible: #{adapter}"
       end
       @@trans = {
-        :text => Translation.new(ret['text']),
+        :text    => Translation.new(ret['text']),
         :formats => ret['formats']
       }
     end
@@ -38,15 +38,17 @@ module Localize
     def localize(source, format = :full)
       load unless @@trans
 
-      if source.is_a?(Integer)
-        Formats.number(source)
-      elsif source.is_a?(Float)
-        Formats.number(source)
-      elsif source.is_a?(Time) or source.is_a?(Date)
-        Formats.date(source, format)
-      else
-        raise "Format not recognize"
+      case source
+        when Integer
+          Formats.number(source)
+        when Float
+          Formats.number(source)
+        when Time, Date
+          Formats.date(source, format)
+        else
+          raise "Format not recognize"
       end
+
     end
 
     alias :l :localize
@@ -54,15 +56,17 @@ module Localize
     def phone(source, format = :full)
       load unless @@trans
 
-      fone = if source.is_a?(Integer)
-        source
-      elsif source.is_a?(String)
-        source.gsub(/[\+., -]/, '').trim.to_i
-      elsif source.is_a?(Float)
-        source.to_s.gsub('.', '').to_i
-      else
-        raise "Format not recognize"
+      fone = case source
+        when Integer
+          source
+        when String
+          source.gsub(/[\+., -]/, '').trim.to_i
+        when Float
+          source.to_s.gsub('.', '').to_i
+        else
+          raise "Format not recognize"
       end
+
       Formats.phone(fone, format)
     end
 
@@ -117,7 +121,7 @@ module Localize
     def initialize(hash)
       hash.each_pair do |key, value|
         value = Translation.new(value) if value.is_a?(Hash)
-        key = key.to_s
+        key   = key.to_s
         instance_variable_set("@#{key}", value)
         self.class.class_eval do
           define_method("#{key}") do |*args|

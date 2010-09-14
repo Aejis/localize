@@ -6,8 +6,8 @@ module Localize
       def phone(str, format = :full)
         require 'strscan'
         pattern = Localize.trans[:formats]['phone'][format]
-        slots = pattern.count('#')
-        source = str.to_s
+        slots   = pattern.count('#')
+        source  = str.to_s
 
         if source.length < slots
           keepCount = source.length
@@ -19,10 +19,11 @@ module Localize
           pattern = pattern[leftmost..rightmost]
         end
 
-        scanner = ::StringScanner.new(pattern)
+        scanner     = ::StringScanner.new(pattern)
         sourceIndex = 0
-        result = ''
-        fixRegexp = Regexp.new(Regexp.escape('#'))
+        result      = ''
+        fixRegexp   = Regexp.new(Regexp.escape('#'))
+
         while not scanner.eos?
           if scanner.scan(fixRegexp) then
             result += source[sourceIndex].chr
@@ -48,10 +49,11 @@ module Localize
 
       # Based on snippet on rubygarden
       def number(num)
-        locale = Localize.trans[:formats]['number']
-        separator = locale['separator'] || ''
+        locale        = Localize.trans[:formats]['number']
+        separator     = locale['separator'] || ''
         decimal_point = locale['dec_point'] || '.'
-        num_parts = num.to_s.split('.')
+        num_parts     = num.to_s.split('.')
+
         x = num_parts[0].reverse.scan(/.{1,3}/).join(separator).reverse
         x << decimal_point + num_parts[1]
       end
