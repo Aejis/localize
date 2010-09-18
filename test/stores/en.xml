@@ -1,8 +1,8 @@
 <en>
   <text>
-    <hello>world</hello>
+    <hello>xworld</hello>
     <foo>
-      <bar>baz</bar>
+      <bar>xbaz</bar>
     </foo>
     <interp_test>
       <one>It interpolate ${1} param</one>

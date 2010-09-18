@@ -19,13 +19,6 @@ describe Localize do
     t.hello.should == 'world'
   end
   
-  it "Get translation from xml" do
-    Localize.store = :xml
-    Localize.load(:en, 'stores')
-    t = Localize.translate
-    t.hello.should == 'world'
-  end
-  
   it "Accept nested translations" do
     t = Localize.translate
     t.foo.bar.should == 'baz'
@@ -40,4 +33,18 @@ describe Localize do
     t = Localize.translate
     t.fee.baz.should == 'Translation missing: fee.baz'
   end
+
+  it "Get translation from xml" do
+    Localize.store = :xml
+    Localize.load(:en, 'stores')
+    t = Localize.translate
+    t.hello.should == 'xworld'
+  end
+
+  it "Accept nested translations from xml" do
+    Localize.store = :xml
+    t = Localize.translate
+    t.foo.bar.should == 'xbaz'
+  end
+
 end
