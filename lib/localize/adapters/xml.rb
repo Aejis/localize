@@ -1,6 +1,10 @@
 module Localize
   class XMLadapter
-    require 'xmlsimple'
+    begin
+      require 'xmlsimple'
+    rescue LoadError
+      raise "Could not load xmlsimple. Please install it with 'gem install xml-simple' or use another adapter"
+    end
 
     def self.get_trans
       tr = {}
