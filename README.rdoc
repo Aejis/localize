@@ -12,8 +12,10 @@ Example:
 == Install
 
   gem install localize
+  gem install xml-simple  # if your localization file will be xml format
   require 'localize'
-
+  
+  
 == Setup
 
 Set the store, yaml or plain for now, xml and others planned (default yaml):
@@ -76,8 +78,8 @@ Formats section contains different localization rules and formats:
 
   formats:
     phone:
-      :full: '+### (##) ###-##-##'
-      :short: '###-##-##'
+      full: '+### (##) ###-##-##'
+      short: '###-##-##'
     number:
       separator: ','
       dec_point: '.'
@@ -93,8 +95,8 @@ Date subsection must contains translations for months and days of the week. Also
   formats:
     date:
       format:
-        :full: '%a %b %d %H:%M:%S %Z %Y'
-        :short: '%a %d-%B-%y'
+        full: '%a %b %d %H:%M:%S %Z %Y'
+        short: '%a %d-%B-%y'
       day_names:
         short:
           - Sun
